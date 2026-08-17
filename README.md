@@ -63,14 +63,14 @@ ComfyUI本体プロセス内で、8種類のHeavyタガー(CUDA/ONNX/timmベー�
 
 | model_id | 語彙数 | gated | ライセンス | 特徴・注意点 |
 |---|---|---|---|---|
-| `cl_v1` | 約51,213 | ❌自動DL | Apache-2.0 | 入力サイズ448px(384pxではない点に注意) |
-| `cl_v2` | 約106,536 | ✅要手動配置 | 独自ライセンス(再配布禁止) | 語彙数が非常に多く、統計的に閾値超えタグが多くなりやすい。`max_tags`での切り詰めや`use_best_threshold`の活用を推奨 |
-| `dtq_l16` | 約11,424 | ✅要手動配置 | DINOv3 License(Meta) | DINOv3ベース |
-| `dtq_b16` | 約11,424 | ✅要手動配置 | DINOv3 License(Meta) | 同上、より軽量 |
-| `oppai_v11` | 約19,294 | ❌自動DL | Apache-2.0 | **タグのcategory情報を持たない(全タグgeneral扱い)。`threshold_character`/`threshold_copyright`は実質効かない** |
-| `wd_eva02_l` | 約10,861 | ❌自動DL | Apache-2.0 | category情報あり、閾値は正常に機能 |
-| `at_eva02` | 約12,476 | ✅要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド(ONNXではない) |
-| `at_convnext_huge` | - | ✅要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド、比較的重い |
+| `cl_v1` | 約51,213 | ✅自動DL | Apache-2.0 | 入力サイズ448px(384pxではない点に注意) |
+| `cl_v2` | 約106,536 | ❌要手動配置 | 独自ライセンス(再配布禁止) | 語彙数が非常に多く、統計的に閾値超えタグが多くなりやすい。`max_tags`での切り詰めや`use_best_threshold`の活用を推奨 |
+| `dtq_l16` | 約11,424 | ❌要手動配置 | DINOv3 License(Meta) | DINOv3ベース |
+| `dtq_b16` | 約11,424 | ❌要手動配置 | DINOv3 License(Meta) | 同上、より軽量 |
+| `oppai_v11` | 約19,294 | ✅自動DL | Apache-2.0 | **タグのcategory情報を持たない(全タグgeneral扱い)。`threshold_character`/`threshold_copyright`は実質効かない** |
+| `wd_eva02_l` | 約10,861 | ✅自動DL | Apache-2.0 | category情報あり、閾値は正常に機能 |
+| `at_eva02` | 約12,476 | ❌要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド(ONNXではない) |
+| `at_convnext_huge` | - | ❌要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド、比較的重い |
 
 配布元URLと配置ファイル名の詳細は`README.md`を参照してください。
 
