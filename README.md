@@ -63,20 +63,46 @@ ComfyUI本体プロセス内で、8種類のHeavyタガー(CUDA/ONNX/timmベー�
 
 | model_id | 語彙数 | gated | ライセンス | 特徴・注意点 |
 |---|---|---|---|---|
-| `cl_v1` | 約51,213 | ✅自動DL | Apache-2.0 | 入力サイズ448px(384pxではない点に注意) |
-| `cl_v2` | 約106,536 | ❌要手動配置 | 独自ライセンス(再配布禁止) | 語彙数が非常に多く、統計的に閾値超えタグが多くなりやすい。`max_tags`での切り詰めや`use_best_threshold`の活用を推奨 |
-| `dtq_l16` | 約11,424 | ❌要手動配置 | DINOv3 License(Meta) | DINOv3ベース |
-| `dtq_b16` | 約11,424 | ❌要手動配置 | DINOv3 License(Meta) | 同上、より軽量 |
-| `oppai_v11` | 約19,294 | ✅自動DL | Apache-2.0 | **タグのcategory情報を持たない(全タグgeneral扱い)。`threshold_character`/`threshold_copyright`は実質効かない** |
-| `wd_eva02_l` | 約10,861 | ✅自動DL | Apache-2.0 | category情報あり、閾値は正常に機能 |
-| `at_eva02` | 約12,476 | ❌要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド(ONNXではない) |
-| `at_convnext_huge` | - | ❌要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド、比較的重い |
+| `cl_v1` | 約51,213 | ❌自動DL | Apache-2.0 | 入力サイズ448px(384pxではない点に注意) |
+| `cl_v2` | 約106,536 | ✅要手動配置 | 独自ライセンス(再配布禁止) | 語彙数が非常に多く、統計的に閾値超えタグが多くなりやすい。`max_tags`での切り詰めや`use_best_threshold`の活用を推奨 |
+| `dtq_l16` | 約11,424 | ✅要手動配置 | DINOv3 License(Meta) | DINOv3ベース |
+| `dtq_b16` | 約11,424 | ✅要手動配置 | DINOv3 License(Meta) | 同上、より軽量 |
+| `oppai_v11` | 約19,294 | ❌自動DL | Apache-2.0 | **タグのcategory情報を持たない(全タグgeneral扱い)。`threshold_character`/`threshold_copyright`は実質効かない** |
+| `wd_eva02_l` | 約10,861 | ❌自動DL | Apache-2.0 | category情報あり、閾値は正常に機能 |
+| `at_eva02` | 約12,476 | ✅要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド(ONNXではない) |
+| `at_convnext_huge` | - | ✅要手動配置+GPL同意 | **GPL-3.0** | timmバックエンド、比較的重い |
 
-配布元URLと配置ファイル名の詳細は`README.md`を参照してください。
+配布元URLと配置ファイル名の詳細は次章「4. 配布元・配置ファイル一覧」を参照してください。
 
 ---
 
-## 4. deviceについて
+## 4. 配布元・配置ファイル一覧
+
+`[ACTION REQUIRED]`(gated、要手動配置)のモデルは、以下の配布元から該当ファイルをダウンロードし、
+拡張機能フォルダ直下の`models/<model_id>/`へ、記載のファイル名で配置してください。
+❌自動DLのモデルは`Setup`ノード実行時に自動でダウンロードされるため、手動作業は不要です。
+
+| model_id | 配布元 | 配置するファイル | 配置先 |
+|---|---|---|---|
+| `cl_v1` ❌自動DL | [cella110n/cl_tagger](https://huggingface.co/cella110n/cl_tagger)(`cl_tagger_1_02/`フォルダ) | `model.onnx`, `tag_mapping.json` | `models/cl_v1/` |
+| `cl_v2` ✅要手動配置 | [cella110n/cl_tagger_v2](https://huggingface.co/cella110n/cl_tagger_v2) | `model.onnx`, `model.onnx.data`(ONNX外部データ、忘れずに), `model_vocabulary.json` | `models/cl_v2/` |
+| `dtq_l16` ✅要手動配置 | [realphongha/danbooru-tag-query](https://huggingface.co/realphongha/danbooru-tag-query)(`models/DanbooruTagQuery_l16_448x448/`フォルダ) | `model.onnx`, `tag_to_id.json`, `tag_category.json` | `models/dtq_l16/` |
+| `dtq_b16` ✅要手動配置 | [realphongha/danbooru-tag-query](https://huggingface.co/realphongha/danbooru-tag-query)(`models/DanbooruTagQuery_b16_448x448/`フォルダ) | `model.onnx`, `tag_to_id.json`, `tag_category.json` | `models/dtq_b16/` |
+| `oppai_v11` ❌自動DL | [Grio43/OppaiOracle](https://huggingface.co/Grio43/OppaiOracle)(`V1.1_onnx/`フォルダ) | `model.onnx`, `selected_tags.csv` | `models/oppai_v11/` |
+| `wd_eva02_l` ❌自動DL | [SmilingWolf/wd-eva02-large-tagger-v3](https://huggingface.co/SmilingWolf/wd-eva02-large-tagger-v3) | `model.onnx`, `selected_tags.csv` | `models/wd_eva02_l/` |
+| `at_eva02` ✅要手動配置+GPL同意 | [animetimm/eva02_large_patch14_448.dbv4-full](https://huggingface.co/animetimm/eva02_large_patch14_448.dbv4-full) | `model.safetensors`, `selected_tags.csv` | `models/at_eva02/` |
+| `at_convnext_huge` ✅要手動配置+GPL同意 | [animetimm/convnextv2_huge.dbv4-full](https://huggingface.co/animetimm/convnextv2_huge.dbv4-full) | `model.safetensors`, `selected_tags.csv` | `models/at_convnext_huge/` |
+
+`dtq_l16`/`dtq_b16`はDINOv3ベースのため、配布元Hugging Faceページでの利用規約への同意
+(Meta社のDINOv3 License)が必要です。`at_eva02`/`at_convnext_huge`はGPL-3.0ライセンスのため、
+`Setup`ノードの`enable_gpl_models`をONにする必要があります(GPLがこの拡張機能の配布物に
+伝播する可能性があることに同意した上で行ってください)。
+
+各モデルのライセンス種別は上記「3. モデル一覧と特性」の表を参照してください。
+
+---
+
+## 5. deviceについて
 
 `AUTO` / `GPU` / `CPU`の3択です。
 
@@ -95,7 +121,7 @@ GPU EPでのセッション生成に失敗した場合は自動でCPUへ再試�
 
 ---
 
-## 5. ログの読み方
+## 6. ログの読み方
 
 コンソールログには`[TEW][種別]`のプレフィックスが付きます。トラブル報告時はこの`[TEW]`行を
 含めて共有してください。
@@ -114,7 +140,7 @@ GPU EPでのセッション生成に失敗した場合は自動でCPUへ再試�
 
 ---
 
-## 6. トラブルシューティング
+## 7. トラブルシューティング
 
 ### CUDAが使えず`CPU_FALLBACK`になる
 
@@ -156,7 +182,7 @@ GPU EPでのセッション生成に失敗した場合は自動でCPUへ再試�
 
 ---
 
-## 7. 既知の制限事項
+## 8. 既知の制限事項
 
 - **`oppai_v11`**: タグのcategory情報を持たないため、`threshold_character`/
   `threshold_copyright`による絞り込みができない(全タグがgeneral扱い)。この点はモデル配布物側の
